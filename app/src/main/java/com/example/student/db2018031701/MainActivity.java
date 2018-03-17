@@ -20,6 +20,10 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.IOException;
 import java.util.List;
 
@@ -82,6 +86,22 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onResponse(String response) {
                 Log.d("LOC", response);
+                try {
+                    JSONObject obj = new JSONObject(response);
+                    JSONArray routes = obj.getJSONArray("routes");
+                    JSONObject obj1 = routes.getJSONObject(0);
+                    JSONArray legs = obj1.getJSONArray("legs");
+                    JSONObject obj2 = legs.getJSONObject(0);
+                    JSONObject distance = obj2.getJSONObject("distance");
+                    String str = distance.getString("text");
+                    Log.d("LOC", "distance:" + str);
+
+
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
             }
         }, new Response.ErrorListener() {
             @Override
