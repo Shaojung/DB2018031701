@@ -11,17 +11,21 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 
 import java.io.IOException;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
-
+    LocationManager lm;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        LocationManager lm = (LocationManager) getSystemService(LOCATION_SERVICE);
+        lm = (LocationManager) getSystemService(LOCATION_SERVICE);
+    }
+    public void click1(View v)
+    {
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
             //    ActivityCompat#requestPermissions
@@ -30,8 +34,10 @@ public class MainActivity extends AppCompatActivity {
             //                                          int[] grantResults)
             // to handle the case where the user grants the permission. See the documentation
             // for ActivityCompat#requestPermissions for more details.
+            Log.d("LOC", "沒有權限");
             return;
         }
+        Log.d("LOC", "有權限");
         lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, new MyListener());
     }
     class MyListener implements LocationListener
@@ -55,8 +61,6 @@ public class MainActivity extends AppCompatActivity {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-
-
         }
 
         @Override
