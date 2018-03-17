@@ -35,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onLocationChanged(Location location) {
             Log.d("LOC", "Change!!");
+            Log.d("LOC", "" + location.getLatitude() + "," + location.getLongitude());
         }
 
         @Override
