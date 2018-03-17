@@ -35,6 +35,8 @@ public class MainActivity extends AppCompatActivity {
             // to handle the case where the user grants the permission. See the documentation
             // for ActivityCompat#requestPermissions for more details.
             Log.d("LOC", "沒有權限");
+            ActivityCompat.requestPermissions(MainActivity.this, new String[] {Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, 123);
+
             return;
         }
         Log.d("LOC", "有權限");
