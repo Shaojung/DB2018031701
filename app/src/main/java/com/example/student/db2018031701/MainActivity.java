@@ -14,17 +14,26 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+
 import java.io.IOException;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     LocationManager lm;
-
+    Location currentLoc;
+    RequestQueue queue;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        queue = Volley.newRequestQueue(MainActivity.this);
         lm = (LocationManager) getSystemService(LOCATION_SERVICE);
+
     }
 
     public void click1(View v) {
@@ -65,12 +74,32 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
+    public void click2(View v)
+    {
+        String str = "https://maps.googleapis.com/maps/api/directions/json?origin=" + currentLoc.getLatitude() + "," + currentLoc.getLongitude() + "&destination=Taipei101&key=AIzaSyB03rADXr_cx1UI3qvEe6BVR6Vda4XxQs0";
+        Log.d("LOC", str);
+        StringRequest request = new StringRequest(str, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Log.d("LOC", response);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        });
+        queue.add(request);
+        queue.start();
+
+    }
 
     class MyListener implements LocationListener
     {
 
         @Override
         public void onLocationChanged(Location location) {
+            currentLoc = location;
             Log.d("LOC", "Change!!");
             Log.d("LOC", "" + location.getLatitude() + "," + location.getLongitude());
             Location loc101 = new Location("MyLoc");
