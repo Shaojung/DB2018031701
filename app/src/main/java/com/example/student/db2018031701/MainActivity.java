@@ -2,6 +2,8 @@ package com.example.student.db2018031701;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -9,6 +11,9 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+
+import java.io.IOException;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -41,6 +46,17 @@ public class MainActivity extends AppCompatActivity {
             loc101.setLongitude(121.5644722);
             double dist = loc101.distanceTo(location);
             Log.d("LOC", "Distance to Taipei 101 = " + dist);
+
+            Geocoder geocoder = new Geocoder(MainActivity.this);
+            try {
+                List<Address> list = geocoder.getFromLocation(25.0339, 121.5644, 1);
+                Address addr = list.get(0);
+                Log.d("LOC", addr.getAddressLine(0));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+
         }
 
         @Override
