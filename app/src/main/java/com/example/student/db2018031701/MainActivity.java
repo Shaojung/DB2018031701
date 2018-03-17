@@ -42,6 +42,15 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
         Log.d("LOC", "有權限");
+        turnOnGPS();
+    }
+
+    private void turnOnGPS()
+    {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            return;
+        }
+
         lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, new MyListener());
     }
 
@@ -51,11 +60,8 @@ public class MainActivity extends AppCompatActivity {
         if (requestCode == 123) {
             if (grantResults.length > 0
                     && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                    return;
-                }
                 Log.d("LOC", "剛剛得到權限");
-                lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, new MyListener());
+                turnOnGPS();
             }
         }
     }
